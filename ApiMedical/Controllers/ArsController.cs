@@ -12,9 +12,9 @@ using Microsoft.AspNet.OData;
 namespace ApiMedical.Controllers
 {
     [Route("api/[controller]")]
-    public class CountryController : BaseController<Country,CountryDto, IBaseService<Country>>
+    public class ArsController : BaseController<HealthManager,HealthManagerDto, IBaseService<HealthManager>>
     {
-        public CountryController(IBaseService<Country> manager, IMapper Mapper) : base(manager,Mapper)
+        public ArsController(IBaseService<HealthManager> manager, IMapper Mapper) : base(manager,Mapper)
         {
 
         }
@@ -22,7 +22,6 @@ namespace ApiMedical.Controllers
         [EnableQuery()]
         public override IActionResult Get()
         {
-           
             return base.Get();
         }
     }

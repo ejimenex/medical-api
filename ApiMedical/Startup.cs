@@ -53,10 +53,18 @@ namespace ApiMedical
             services.AddSingleton(mapper);
             services.AddScoped<IBaseService<Country>, CountryService>();
             services.AddScoped<IRepository<Country>, CountryRepository>();
+            //
+            services.AddScoped<IBaseService<Users>, UserService>();
+            services.AddScoped<IRepository<Users>, UserRepository>();
+            //
+            services.AddScoped<IBaseService<HealthManager>, HealthManagerService>();
+            services.AddScoped<IRepository<HealthManager>, HealthManagerRepository>();
+            //
             services.AddScoped<ILanguage, LanguageRepository>();
-
-
-
+            //
+            services.AddScoped<IRole, RoleRepository>();
+            //
+            services.AddScoped<IAccount, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

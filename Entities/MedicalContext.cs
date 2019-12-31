@@ -14,8 +14,10 @@ namespace Entities
         }
 
         public DbSet<Country> Country { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<Language> Language { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<HealthManager> HealthManager { get; set; }
 
     }
 }

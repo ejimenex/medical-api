@@ -25,7 +25,6 @@ namespace Repository.Repo
             entity.Version = 1;
             entity.CreatedDate = DateTime.Now;
             entity.IsActive = true;
-            entity.CreateBy = 1;
             var result = entities.Add(entity);
             this.RepositoryContext.SaveChanges();
             return Convert.ToInt32(result.Property("Id").CurrentValue.ToString());

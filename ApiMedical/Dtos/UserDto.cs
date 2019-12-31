@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Entities.Entity
+namespace ApiMedical.Dtos
 {
-    public class Users : BaseClass
+   public class UserDto:BaseDto
     {
 
         public string UserName { get; set; }
@@ -20,8 +19,7 @@ namespace Entities.Entity
         public DateTime? ExpireDateProbatory { get; set; }
         public string Password { get; set; }
         public string Mail { get; set; }
-
-        [ForeignKey("RolId")]
-        public virtual Role Role { get; set; }
+        public string RolName { get; set; }
+        public virtual RoleDto Role { get; set; }
     }
 }
