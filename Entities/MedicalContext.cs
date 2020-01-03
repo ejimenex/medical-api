@@ -18,6 +18,8 @@ namespace Entities
         public DbSet<Language> Language { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<HealthManager> HealthManager { get; set; }
-
+        public DbSet<MedicalCenter> MedicalCenter { get; set; }
+        public DbSet<MedicalSpeciality> MedicalSpeciality { get; set; }
+        
     }
 }

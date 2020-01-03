@@ -25,6 +25,12 @@ namespace ApiMedical.Maping
                .ForMember(x => x.Country, opt => opt.MapFrom(x => x.CountryObj.Name));
                 //
                 cfg.CreateMap<Role, RoleDto>().ReverseMap();
+                //
+                cfg.CreateMap<MedicalSpeciality, MedicalSpecialityDto>().ReverseMap();
+                //
+                cfg.CreateMap<MedicalCenter, MedicalCenterDto>().ReverseMap();
+                cfg.CreateMap<MedicalCenter, MedicalCenterDto>()
+              .ForMember(x => x.CountryName, opt => opt.MapFrom(x => x.CountryObj.Name));
 
             });
             IMapper mapper = config.CreateMapper();

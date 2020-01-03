@@ -48,11 +48,11 @@ namespace ApiMedical.Controllers
            
         }
         [HttpPut]
-        public IActionResult ChangePassword(AccountDto dto)
+        public IActionResult ChangePassword([FromBody]AccountDto dto)
         {
             try
             {
-                var data = acc.ChangePassword(dto.Password, dto.UserName);
+                var data = acc.ChangePassword(dto.Password,dto.OldPassword, dto.UserName);
                 return Ok(data);
             }
             catch (Exception e)

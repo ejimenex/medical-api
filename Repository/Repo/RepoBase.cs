@@ -56,7 +56,7 @@ namespace Repository.Repo
         {
             entity.Version += 1;
             entity.ModifiedDate = DateTime.Now;
-          this.RepositoryContext.Set<T>().Update(entity);
+            this.RepositoryContext.Set<T>().Update(entity);
             this.RepositoryContext.SaveChanges();
             return entity;
         }

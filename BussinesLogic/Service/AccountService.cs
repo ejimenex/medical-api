@@ -19,12 +19,14 @@ namespace BussinesLogic.Service
         
         }
 
-        public bool ChangePassword(string password, string userName)
+        public bool ChangePassword(string password,string OldPassword, string userName)
         {
             try
             {
                 var pass = Common.Encript.GetSHA1(password);
                 var data = this._repository.FindByCondition(c => c.UserName == userName).FirstOrDefault();
+                if (data.Password != Common.Encript.GetSHA1(OldPassword))
+                    throw new ArgumentException("notcoins");
                 data.Password = pass;
                 this._repository.Update(data);
                 return true;

@@ -65,6 +65,12 @@ namespace ApiMedical
             services.AddScoped<IRole, RoleRepository>();
             //
             services.AddScoped<IAccount, AccountService>();
+            //
+            services.AddScoped<IBaseService<MedicalCenter>, MedicalCenterService>();
+            services.AddScoped<IRepository<MedicalCenter>, MedicalCenterRepository>();
+            //
+            services.AddScoped<IBaseService<MedicalSpeciality>, MedicalSpecialityService>();
+            services.AddScoped<IRepository<MedicalSpeciality>, MedicalSpecialityRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

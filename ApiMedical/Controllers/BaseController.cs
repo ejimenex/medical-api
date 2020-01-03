@@ -27,10 +27,18 @@ namespace ApiMedical.Controllers
         [HttpGet]
         public virtual IActionResult Get()
         {
+            try
+            {
+                var objects = _service.FindAll();
+                var dtos = _Mapper.Map<IEnumerable<TDto>>(objects);
+                return Ok(dtos);
+            }
+            catch (Exception)
+            {
 
-            var objects = _service.FindAll();
-            var dtos = _Mapper.Map<IEnumerable<TDto>>(objects);
-            return Ok(dtos);
+                return BadRequest("Internal Error");
+            }
+        
         }
 
         [HttpPost]
