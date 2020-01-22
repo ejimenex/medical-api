@@ -20,7 +20,7 @@ namespace BussinesLogic.Service
         public override int Create(Users entity)
         {
             var exist = _repository.Exist(x => x.UserName == entity.UserName && x.IsActive);
-            if (exist) throw new ArgumentException("l.exist");
+            if (exist) throw new ArgumentException("lUserExist");
 
             entity.Password = Encript.GetSHA1(entity.Password);
 

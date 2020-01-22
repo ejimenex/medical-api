@@ -20,6 +20,13 @@ namespace Entities
         public DbSet<HealthManager> HealthManager { get; set; }
         public DbSet<MedicalCenter> MedicalCenter { get; set; }
         public DbSet<MedicalSpeciality> MedicalSpeciality { get; set; }
-        
+
+        public DbSet<MedicalSpecialityDoctor> MedicalSpecialityDoctor { get; set; }
+        public DbSet<Doctor> Doctor { get; set; }
+        public DbSet<Patient> Patient { get; set; }
+        public DbSet<MedicalSchedule> MedicalSchedule { get; set; }
+        public DbSet<DoctorOffice> DoctorOffice { get; set; }
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<PermissionRoles> PermissionRoles { get; set; }
     }
 }

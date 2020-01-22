@@ -51,7 +51,7 @@ namespace BussinesLogic.Service
 
         public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _repository.FindByCondition(expression);
         }
 
         public virtual T GetOne(int Id)

@@ -11,7 +11,7 @@ namespace Entities.Entity
         public string Name { get; set; }
         public int CountryId { get; set; }
         [ForeignKey("CountryId")]
-        public Country CountryObj { get; set; }
+        public virtual Country CountryOb { get; set; }
   
     }
 }

@@ -48,7 +48,11 @@ namespace ApiMedical
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connectionString = Configuration["sqlconnection:connectionString"];
             services.AddDbContext<MedicalContext>(options =>
-                  options.UseSqlServer(connectionString));
+
+                  options.UseSqlServer(connectionString).UseLazyLoadingProxies());
+
+
+         
             var mapper = Maping.Mapping.GetMapper();
             services.AddSingleton(mapper);
             services.AddScoped<IBaseService<Country>, CountryService>();
@@ -63,6 +67,7 @@ namespace ApiMedical
             services.AddScoped<ILanguage, LanguageRepository>();
             //
             services.AddScoped<IRole, RoleRepository>();
+            services.AddScoped<IPermission, PermisionRepository>();
             //
             services.AddScoped<IAccount, AccountService>();
             //
@@ -71,6 +76,20 @@ namespace ApiMedical
             //
             services.AddScoped<IBaseService<MedicalSpeciality>, MedicalSpecialityService>();
             services.AddScoped<IRepository<MedicalSpeciality>, MedicalSpecialityRepository>();
+            //
+            services.AddScoped<IBaseService<Patient>, PatientService>();
+            services.AddScoped<IRepository<Patient>, PatientRepository>();
+            //
+            services.AddScoped<IBaseService<MedicalSchedule>, MedicalScheduleService>();
+            services.AddScoped<IRepository<MedicalSchedule>, MedicalScheduleRepository>();
+            //
+            services.AddScoped<IBaseService<Doctor>, DoctorService>();
+            services.AddScoped<IRepository<Doctor>, DoctorRepository>();
+            //
+            services.AddScoped<IBaseService<DoctorOffice>, DoctorOfficeService>();
+            services.AddScoped<IRepository<DoctorOffice>, DoctorOfficeRepository>();
+            //
+            services.AddScoped<IRepository<MedicalSpecialityDoctor>, MedicalSpecialityDoctorRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -33,7 +33,7 @@ namespace ApiMedical.Controllers
                 var dtos = _Mapper.Map<IEnumerable<TDto>>(objects);
                 return Ok(dtos);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 return BadRequest("Internal Error");

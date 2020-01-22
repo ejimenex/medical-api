@@ -18,9 +18,11 @@ namespace ApiMedical.Controllers
     public class AccountController : ControllerBase
     {
         readonly IAccount acc;
-        public AccountController(IAccount _acc) 
+        readonly IRepository<Doctor> doctor;
+        public AccountController(IAccount _acc, IRepository<Doctor> _doctor) 
         {
             acc = _acc;
+            doctor = _doctor;
         }
         [HttpPost]
         public  IActionResult GetUser([FromBody] AccountDto dto)
@@ -28,6 +30,11 @@ namespace ApiMedical.Controllers
             try
             {
                 var data = acc.VerifyUser(dto.Password,dto.UserName);
+                Doctor doctorData = null;
+                if (data.DoctorId != null)
+                {
+                     doctorData = doctor.GetOne((int)data.DoctorId);
+                }
                 string token = CreateToken(data);
                 var datos = new
                 {
@@ -35,7 +42,10 @@ namespace ApiMedical.Controllers
                     ExpireInSeconds = (DateTime.UtcNow.AddDays(1) - DateTime.UtcNow).Seconds,
                     UserName = data.UserName,
                     Id = data.Id,
-                    Language=data.LanguageId
+                    Language = data.LanguageId,
+                    DoctorId = data.DoctorId == null ? 0 : data.DoctorId,
+                    CountryId = doctorData.CountryId,
+                    Rol=data.RolId
 
                 };
                 return Ok(datos);

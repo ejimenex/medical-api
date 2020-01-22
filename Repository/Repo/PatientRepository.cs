@@ -9,14 +9,15 @@ using System.Text;
 
 namespace Repository.Repo
 {
-   public class HealthManagerRepository : RepositoryBase<HealthManager>
+   public class PatientRepository : RepositoryBase<Patient>
     {
-        public HealthManagerRepository(MedicalContext ctx) : base(ctx) {
+        public PatientRepository(MedicalContext ctx) : base(ctx) {
 
         }
-        public override IQueryable<HealthManager> FindAll()
+        public override IQueryable<Patient> FindAll()
         {
-            return base.FindAll().Include(c=> c.CountryOb);
+            var result = base.FindAll();
+            return result;
         }
 
     }

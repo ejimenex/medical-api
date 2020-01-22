@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Entities.Entity
+namespace ApiMedical.Dtos
 {
-    public class Doctor : BaseClass
+    public class DoctorDto:BaseDto
     {
         public string Name { get; set; }
         public string SurName { get; set; }
@@ -23,12 +23,8 @@ namespace Entities.Entity
         public string City { get; set; }
         public int CountryId { get; set; }
         public int Nationality { get; set; }
-        [NotMapped]
-        public virtual List<MedicalSpecialityDoctor> MedicalSpecialityDoctor { get;set;}
-        [NotMapped]
-        public virtual Users Users { get; set; }
-        [NotMapped]
-        [ForeignKey("Nationality")]
-        public virtual Country CountryBorn { get; set; }
+         public List<MedicalSpecialityDoctorDto> MedicalSpecialityDoctor { get; set; }
+        public CountryDto CountryBorn { get; set; }
+        public UserDto Users { get; set; }
     }
 }

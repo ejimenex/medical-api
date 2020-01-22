@@ -22,7 +22,26 @@ namespace ApiMedical.Controllers
         [EnableQuery()]
         public override IActionResult Get()
         {
+            
             return base.Get();
+        }
+        [HttpGet("GetByCountry")]
+        public  IActionResult GetByCountry([FromQuery]int Id)
+        {
+            try
+            {
+                var result = _service.FindByCondition(x => x.IsActive && x.CountryId == Id).Select(n=> new HealthManagerDto { 
+                Id=n.Id,
+                Name=n.Name
+                });
+                return Ok(_Mapper.Map<IEnumerable<HealthManagerDto>>(result));
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+            
         }
     }
 }
