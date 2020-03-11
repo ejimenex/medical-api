@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiMedical.Controllers
 {
-    [Route("api/[controller]")]
+   // [Route("api/[controller]")]
    
-    public class BaseController<TEntity, TDto, TManager> : ControllerBase where TEntity : BaseClass where TManager : IBaseService<TEntity>
+    public class BaseController<TEntity, TDto, TManager> : ODataController where TEntity : BaseClass where TManager : IBaseService<TEntity>
     {
 
         protected readonly TManager _service;
@@ -24,12 +25,13 @@ namespace ApiMedical.Controllers
             _Mapper = mapper;
 
         }
+        [EnableQuery]
         [HttpGet]
         public virtual IActionResult Get()
         {
             try
             {
-                var objects = _service.FindAll();
+                var objects = _service.FindAll().OrderByDescending(x=> x.Id);
                 var dtos = _Mapper.Map<IEnumerable<TDto>>(objects);
                 return Ok(dtos);
             }
@@ -46,6 +48,13 @@ namespace ApiMedical.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+                    throw new ArgumentException(messages);
+                }
                 TEntity entity = _Mapper.Map<TEntity>(dto);
                 return Ok(_service.Create(entity));
             }

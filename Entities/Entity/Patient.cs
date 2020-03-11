@@ -20,5 +20,6 @@ namespace Entities.Entity
         public int? DoctorId { get; set; }
         public int? ArsId { get; set; }
         public string Sex { get; set; }
+        public Guid? PatientGuid { get; set; }
     }
 }

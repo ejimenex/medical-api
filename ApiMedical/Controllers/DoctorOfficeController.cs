@@ -35,7 +35,8 @@ namespace ApiMedical.Controllers
                 Specification=c.Specification,
                 UrlMapsAddress=c.UrlMapsAddress,
                 MedicalCenterName=c.MedicalCenter.Name,
-                Name=c.Name
+                Name=c.Name,
+                Id=c.Id
                 }).AsQueryable();
                 return Ok(_Mapper.Map<IEnumerable<DoctorOfficeDto>>(data));
             }

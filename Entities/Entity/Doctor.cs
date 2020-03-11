@@ -30,5 +30,6 @@ namespace Entities.Entity
         [NotMapped]
         [ForeignKey("Nationality")]
         public virtual Country CountryBorn { get; set; }
+        public Guid? DoctorGuid { get; set; }
     }
 }

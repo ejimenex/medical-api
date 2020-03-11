@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Entities.Entity
@@ -15,6 +16,9 @@ namespace Entities.Entity
         public DateTime? ModifiedDate { get; set; }
         public int Version { get; set; }
         public bool IsActive { get; set; }
+        [NotMapped]
+        public int Count { get; set; }
+
 
     }
 }

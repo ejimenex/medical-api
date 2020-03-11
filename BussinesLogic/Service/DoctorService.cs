@@ -30,6 +30,7 @@ namespace BussinesLogic.Service
             try
             {if (user.Exist(c => c.UserName == entity.Users.UserName && c.IsActive))
                     throw new ArgumentException("lUserExist");
+                entity.DoctorGuid= Guid.NewGuid();
                 var result= base.Create(entity);
                 if (entity.MedicalSpecialityDoctor != null) {
                     foreach (var ite in entity.MedicalSpecialityDoctor)

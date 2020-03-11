@@ -26,5 +26,6 @@ namespace ApiMedical.Dtos
          public List<MedicalSpecialityDoctorDto> MedicalSpecialityDoctor { get; set; }
         public CountryDto CountryBorn { get; set; }
         public UserDto Users { get; set; }
+        public Guid? DoctorGuid { get; set; }
     }
 }

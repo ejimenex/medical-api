@@ -7,7 +7,7 @@ namespace Entities.Entity
 {
    public class MedicalSchedule:BaseClass
     {
-        public int? MedicalCenterId { get; set; }
+        public int? MedicalOfficeId { get; set; }
         public int? DoctorId { get; set; }
         public string Monday { get; set; }
         public int? MaxQuantityMonday { get; set; }
@@ -24,9 +24,8 @@ namespace Entities.Entity
         public string Sunday { get; set; }
         public int? MaxQuantitySunday { get; set; }
       
-        [ForeignKey("MedicalCenterId")]
-       
-        public virtual MedicalCenter MedicalCenter { get; set; }
+        [ForeignKey("MedicalOfficeId")]       
+        public virtual DoctorOffice DoctorOffice { get; set; }
      
     }
 }

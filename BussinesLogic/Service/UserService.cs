@@ -21,6 +21,8 @@ namespace BussinesLogic.Service
         {
             var exist = _repository.Exist(x => x.UserName == entity.UserName && x.IsActive);
             if (exist) throw new ArgumentException("lUserExist");
+          
+            if (entity.Password.Length<6) throw new ArgumentException("ShortPassword");
 
             entity.Password = Encript.GetSHA1(entity.Password);
 

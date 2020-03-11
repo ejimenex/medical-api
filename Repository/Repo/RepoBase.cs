@@ -39,7 +39,9 @@ namespace Repository.Repo
 
         public virtual IQueryable<T> FindAll()
         {
-            return this.entities.Where(c=> c.IsActive).AsNoTracking();
+           var result= this.entities.Where(c=> c.IsActive).OrderByDescending(c=> c.Id).AsNoTracking();
+            result.FirstOrDefault().Count = result.Count();
+            return result;
         }
 
         public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)

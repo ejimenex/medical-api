@@ -30,5 +30,11 @@ namespace ApiMedical.Controllers
         {
             return Ok( _service.FindByCondition(x=> x.DoctorId==Id).AsQueryable());
         }
+        [HttpGet("allByDoctor")]
+        [EnableQuery()]
+        public IActionResult AllByDoctor(int Id)
+        {
+            return Ok(_service.FindByCondition(x => x.DoctorId == Id).OrderBy(C=> C.Name).AsQueryable());
+        }
     }
 }

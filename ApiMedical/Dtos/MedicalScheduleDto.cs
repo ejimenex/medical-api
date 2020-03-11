@@ -6,7 +6,7 @@ namespace ApiMedical.Dtos
 {
    public class MedicalScheduleDto:BaseDto
     {
-        public int? MedicalCenterId { get; set; }
+        public int? MedicalOfficeId { get; set; }
         public int? DoctorId { get; set; }
         public string Monday { get; set; }
         public int? MaxQuantityMonday { get; set; }
@@ -23,7 +23,7 @@ namespace ApiMedical.Dtos
         public string Sunday { get; set; }
         public int? MaxQuantitySunday { get; set; }
       
-        public string MedicalCenterName { get; set; }
-        public MedicalCenterDto MedicalCenter { get; set; }
+        public string MedicalOfficeName { get; set; }
+        public DoctorOfficeDto DoctorOffice { get; set; }
     }
 }

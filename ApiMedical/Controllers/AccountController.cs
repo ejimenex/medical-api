@@ -44,6 +44,7 @@ namespace ApiMedical.Controllers
                     Id = data.Id,
                     Language = data.LanguageId,
                     DoctorId = data.DoctorId == null ? 0 : data.DoctorId,
+                    DoctorGuid=doctorData.DoctorGuid,
                     CountryId = doctorData.CountryId,
                     Rol=data.RolId
 
@@ -78,7 +79,7 @@ namespace ApiMedical.Controllers
             //Set issued at date
             DateTime issuedAt = DateTime.UtcNow;
             //set the time when it expires
-            DateTime expires = DateTime.UtcNow.AddDays(1);
+            DateTime expires = DateTime.UtcNow.AddDays(10);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -94,7 +95,7 @@ namespace ApiMedical.Controllers
             //create the jwt
             var token =
                 (JwtSecurityToken)
-                    tokenHandler.CreateJwtSecurityToken(issuer: "http://visitas.mardom.com/", audience: "http://visitas.mardom.com/",
+                    tokenHandler.CreateJwtSecurityToken(issuer: "http://medical.com/", audience: "http://medical.com/",
                         subject: claimsIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
             var tokenString = tokenHandler.WriteToken(token);
 
@@ -106,9 +107,9 @@ namespace ApiMedical.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, usuario.UserName),
-                new Claim(ClaimTypes.Email, usuario.UserName),
-                new Claim(ClaimTypes.GivenName, usuario.UserName),
-                new Claim(ClaimTypes.Actor, usuario.UserName),
+                new Claim(ClaimTypes.Email, usuario.Mail),
+                new Claim(ClaimTypes.GivenName, usuario.Name + " " + usuario.SurName),
+                new Claim(ClaimTypes.Actor, usuario.Name + " " + usuario.SurName),
             };
 
 

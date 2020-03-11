@@ -12,9 +12,9 @@ using Microsoft.AspNet.OData;
 namespace ApiMedical.Controllers
 {
     [Route("api/[controller]")]
-    public class MedicalScheduleController : BaseController<MedicalSchedule,MedicalScheduleDto, IBaseService<MedicalSchedule>>
+    public class MedicalScheduleController : BaseController<MedicalSchedule, MedicalScheduleDto, IBaseService<MedicalSchedule>>
     {
-        public MedicalScheduleController(IBaseService<MedicalSchedule> manager, IMapper Mapper) : base(manager,Mapper)
+        public MedicalScheduleController(IBaseService<MedicalSchedule> manager, IMapper Mapper) : base(manager, Mapper)
         {
 
         }
@@ -22,7 +22,7 @@ namespace ApiMedical.Controllers
         [EnableQuery()]
         public override IActionResult Get()
         {
-           
+
             return base.Get();
         }
         [HttpGet("GetByDoctor")]
@@ -31,23 +31,24 @@ namespace ApiMedical.Controllers
             try
             {
                 var result = _service.FindByCondition(x => x.IsActive && x.DoctorId == Id).Select
-                    (c=> new MedicalScheduleDto {
-                   Monday= c.Monday,
-                   Wednesady= c.Wednesady,
-                    Tuesday= c.Tuesday,
-                   Thursday= c.Thursday,
-                   Saturday= c.Saturday,
-                   Friday= c.Friday,
-                   Sunday= c.Sunday,
-                   MaxQuantityMonday= c.MaxQuantityMonday,
-                   MaxQuantityTuesday= c.MaxQuantityTuesday,
-                   MaxQuantityWednesady= c.MaxQuantityWednesady,
-                   MaxQuantityThursday= c.MaxQuantityThursday,
-                   MaxQuantityFriday= c.MaxQuantityFriday,
-                   MaxQuantitySaturday= c.MaxQuantitySaturday,
-                   MaxQuantitySunday =c.MaxQuantitySunday,
-                   MedicalCenterName=c.MedicalCenter.Name,
-                   Id=c.Id
+                    (c => new MedicalScheduleDto
+                    {
+                        Monday = c.Monday,
+                        Wednesady = c.Wednesady,
+                        Tuesday = c.Tuesday,
+                        Thursday = c.Thursday,
+                        Saturday = c.Saturday,
+                        Friday = c.Friday,
+                        Sunday = c.Sunday,
+                        MaxQuantityMonday = c.MaxQuantityMonday,
+                        MaxQuantityTuesday = c.MaxQuantityTuesday,
+                        MaxQuantityWednesady = c.MaxQuantityWednesady,
+                        MaxQuantityThursday = c.MaxQuantityThursday,
+                        MaxQuantityFriday = c.MaxQuantityFriday,
+                        MaxQuantitySaturday = c.MaxQuantitySaturday,
+                        MaxQuantitySunday = c.MaxQuantitySunday,
+                        MedicalOfficeName = c.DoctorOffice.Name,
+                        Id = c.Id
                     });
                 return Ok(_Mapper.Map<IEnumerable<MedicalScheduleDto>>(result));
             }
@@ -56,5 +57,37 @@ namespace ApiMedical.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("GetByOffice")]
+        public IActionResult GetByOffice([FromQuery]int Id)
+        {
+            try
+            {
+                var result = _service.FindByCondition(x => x.IsActive && x.MedicalOfficeId == Id).Select
+                    (c => new MedicalScheduleDto
+                    {
+                        Monday = c.Monday,
+                        Wednesady = c.Wednesady,
+                        Tuesday = c.Tuesday,
+                        Thursday = c.Thursday,
+                        Saturday = c.Saturday,
+                        Friday = c.Friday,
+                        Sunday = c.Sunday,
+                        MaxQuantityMonday = c.MaxQuantityMonday,
+                        MaxQuantityTuesday = c.MaxQuantityTuesday,
+                        MaxQuantityWednesady = c.MaxQuantityWednesady,
+                        MaxQuantityThursday = c.MaxQuantityThursday,
+                        MaxQuantityFriday = c.MaxQuantityFriday,
+                        MaxQuantitySaturday = c.MaxQuantitySaturday,
+                        MaxQuantitySunday = c.MaxQuantitySunday,
+                        MedicalOfficeName = c.DoctorOffice.Name,
+                        Id = c.Id
+                    });
+                return Ok(_Mapper.Map<IEnumerable<MedicalScheduleDto>>(result));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
+}

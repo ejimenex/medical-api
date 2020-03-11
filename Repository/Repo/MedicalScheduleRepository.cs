@@ -16,16 +16,16 @@ namespace Repository.Repo
         }
         public override IQueryable<MedicalSchedule> FindAll()
         {
-            return base.FindAll().Include(c=> c.MedicalCenter);
+            return base.FindAll().Include(c=> c.DoctorOffice);
         }
         public override int Create(MedicalSchedule entity)
         {
-            entity.MedicalCenter = null;
+            entity.DoctorOffice = null;
             return base.Create(entity);
         }
         public override MedicalSchedule Update(MedicalSchedule entity)
         {
-            entity.MedicalCenter = null;
+            entity.DoctorOffice = null;
             return base.Update(entity);
         }
     }

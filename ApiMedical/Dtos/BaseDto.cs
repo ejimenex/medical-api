@@ -13,5 +13,6 @@ namespace ApiMedical.Dtos
         public DateTime? ModifiedDate { get; set; }
         public int Version { get; set; }
         public bool IsActive { get; set; }
+        public int Count { get; set; }
     }
 }

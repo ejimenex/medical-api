@@ -43,11 +43,13 @@ namespace BussinesLogic.Service
             var pass = Common.Encript.GetSHA1(password);
             var data=this._repository.FindByCondition(c => c.Password == pass && c.UserName == userName).FirstOrDefault();
             if (data == null)
-                throw new ArgumentException("userNotExist");
+                throw new ArgumentException("Usuario no existe / User do not exist");
             if(data.IsLocked==true)
-                throw new ArgumentException("userLocked");
+                throw new ArgumentException("Usuario bloqueado / Bloqued User");
             if (!data.IsActive)
-                throw new ArgumentException("userNotActive");
+                throw new ArgumentException("User is not active / Usuario no esta activo");
+            if((data.IsProbatory!=null) && data.IsProbatory.Value &&  DateTime.Now > data.ExpireDateProbatory)
+                throw new ArgumentException($"Trial period caduced on {data.ExpireDateProbatory.Value.ToString("yyyy-MM-dd")} / Periodo de prueba caduco el {data.ExpireDateProbatory.Value.ToString("yyyy-MM-dd")}");
             return data;
         }
     }

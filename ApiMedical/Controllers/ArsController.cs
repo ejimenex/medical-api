@@ -11,20 +11,21 @@ using Microsoft.AspNet.OData;
 
 namespace ApiMedical.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     public class ArsController : BaseController<HealthManager,HealthManagerDto, IBaseService<HealthManager>>
     {
         public ArsController(IBaseService<HealthManager> manager, IMapper Mapper) : base(manager,Mapper)
         {
 
         }
-        [HttpGet]
-        [EnableQuery()]
-        public override IActionResult Get()
-        {
+        //[EnableQuery]
+        //[HttpGet]
+       
+        //public override IActionResult Get()
+        //{
             
-            return base.Get();
-        }
+        //    return base.Get();
+        //}
         [HttpGet("GetByCountry")]
         public  IActionResult GetByCountry([FromQuery]int Id)
         {

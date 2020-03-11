@@ -34,21 +34,58 @@ namespace ApiMedical.Maping
                 cfg.CreateMap<MedicalCenter, MedicalCenterDto>()
               .ForMember(x => x.CountryName, opt => opt.MapFrom(x => x.CountryObj.Name));
                 //
-
+                
+                cfg.CreateMap<PatientForm, PatientFormDto>().ReverseMap();
+                cfg.CreateMap<PatientForm, PatientFormDto>()
+                .ForMember(x => x.Type, opt => opt.MapFrom(x => x.MedicalForm.Type))
+                .ForMember(x => x.QuestionName, opt => opt.MapFrom(x => x.MedicalForm.Question));
+                //
                 cfg.CreateMap<Doctor, DoctorDto>().ReverseMap();
+                cfg.CreateMap<EventTypes, EventTypeDto>().ReverseMap();
+                //
+
+                cfg.CreateMap<PersonalSchedule, PersonalScheduleDto>().ReverseMap();
+                cfg.CreateMap<PersonalSchedule, PersonalScheduleDto>()
+                .ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name))
+                .ForMember(x => x.EventName, opt => opt.MapFrom(x => x.EventTypes.Name));
+                //
+                cfg.CreateMap<Appointment, AppointmentDto>().ReverseMap();
+                cfg.CreateMap<Appointment, AppointmentDto>()
+              .ForMember(x => x.OfficeName, opt => opt.MapFrom(x => x.Office.Name)).ForMember(x => x.PatientName, opt => opt.MapFrom(x => $"{x.Patient.Name} "))
+              .ForMember(x => x.AppointmentStateName, opt => opt.MapFrom(x => $"{x.AppointmentState.Name} "));
                 //
                 cfg.CreateMap<MedicalSchedule, MedicalScheduleDto>().ReverseMap();
                 cfg.CreateMap<MedicalSchedule, MedicalScheduleDto>()
-              .ForMember(x => x.MedicalCenterName, opt => opt.MapFrom(x => x.MedicalCenter.Name));
+              .ForMember(x => x.MedicalOfficeName, opt => opt.MapFrom(x => x.DoctorOffice.Name));
                 //
                 cfg.CreateMap<DoctorOffice, DoctorOfficeDto>().ReverseMap();
                 cfg.CreateMap<DoctorOffice, DoctorOfficeDto>()
               .ForMember(x => x.MedicalCenterName, opt => opt.MapFrom(x => x.MedicalCenter.Name))
               .ForMember(x => x.DoctorName, opt => opt.MapFrom(x => $"{x.Doctor.Treament} {x.Doctor.Name}"));
                 //
-
+                cfg.CreateMap<Consultation, ConsultationDto>().ReverseMap();
+                cfg.CreateMap<Consultation, ConsultationDto>()
+              .ForMember(x => x.PatientName, opt => opt.MapFrom(x => $"{x.Patient.Name}"))
+              .ForMember(x => x.ReasonDescription, opt => opt.MapFrom(x => x.ReasonConsultationObj.Key))
+              .ForMember(x => x.OfficeName, opt => opt.MapFrom(x => x.DoctorOffice.Name));
+                //
+                cfg.CreateMap<Menu, MenuDto>().ReverseMap();
+                cfg.CreateMap<Children, ChildrenDto>().ReverseMap();
+                cfg.CreateMap<Children, ChildrenDto>();
+                cfg.CreateMap<Menu, MenuDto>()
+             .ForMember(x => x.children, opt => opt.Condition(v=> v.children.Count>0));
+                //
                 cfg.CreateMap<Patient, PatientDto>().ReverseMap();
+                cfg.CreateMap<MedicalForm, MedicalFormDto>().ReverseMap();
                 cfg.CreateMap<Doctor, DoctorDto>();
+                //
+                cfg.CreateMap<MedicalServices, MedicalServiceDto>().ReverseMap();
+                cfg.CreateMap<MedicalServices, MedicalServiceDto>()
+                .ForMember(x => x.ApplyInsuranceName, opt => opt.MapFrom(x => x.ApplyInsurance?"Si":"No"));
+
+                //
+                cfg.CreateMap<Prescription, PrescriptionDto>().ReverseMap();
+                cfg.CreateMap<Prescription, PrescriptionDto>().ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name));
             });
             IMapper mapper = config.CreateMapper();
             return mapper;
