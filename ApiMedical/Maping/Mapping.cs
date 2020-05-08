@@ -40,7 +40,22 @@ namespace ApiMedical.Maping
                 .ForMember(x => x.Type, opt => opt.MapFrom(x => x.MedicalForm.Type))
                 .ForMember(x => x.QuestionName, opt => opt.MapFrom(x => x.MedicalForm.Question));
                 //
-                cfg.CreateMap<Doctor, DoctorDto>().ReverseMap();
+                cfg.CreateMap<Invoice, InvoiceDto>().ReverseMap();
+                cfg.CreateMap<Invoice, InvoiceDto>()
+                .ForMember(x => x.Discount, opt => opt.MapFrom(x => x.InvoiceDetail.Sum(c=> c.Discount)))
+                .ForMember(x => x.Total, opt => opt.MapFrom(x => x.InvoiceDetail.Sum(c=> c.Total)))
+                .ForMember(x => x.TotalItem, opt => opt.MapFrom(x => x.InvoiceDetail.Count()))
+                .ForMember(x => x.MedicalCenterName, opt => opt.MapFrom(x => x.MedicalCenter.Name))
+                .ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name));
+                //
+                cfg.CreateMap<InvoiceDetail, InvoiceDetailDto>()
+                .ForMember(c => c.MedicalService, opt => opt.MapFrom(c => c.MedicalService.Name))
+                .ForMember(c => c.DiscountReason, opt => opt.MapFrom(c => c.DiscountReason.Name));
+                //
+                cfg.CreateMap<DoctorDto,Doctor>();
+                cfg.CreateMap<Doctor, DoctorDto>()
+                .ForMember(c => c.Country, opt => opt.MapFrom(c => c.CountryWork.Name))
+                .ForMember(c => c.Speciality, opt => opt.MapFrom(c =>  c.MedicalSpecialityDoctor.Select(v=> new { Name=v.MedicalSpeciality.Name}).FirstOrDefault()));
                 cfg.CreateMap<EventTypes, EventTypeDto>().ReverseMap();
                 //
 

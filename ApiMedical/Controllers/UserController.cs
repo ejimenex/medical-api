@@ -8,6 +8,7 @@ using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
+using ApiMedical.Pagination;
 
 namespace ApiMedical.Controllers
 {
@@ -19,10 +20,36 @@ namespace ApiMedical.Controllers
 
         }
         [HttpGet]
-        [EnableQuery()]
-        public override IActionResult Get()
+        [Route("GetUserPaginated")]
+        public IActionResult GetUserPaginated(ResourceParameters resource)
         {
-            return base.Get();
+            if (resource.parameters == null) resource.parameters = "";
+            var collection = _service.FindAll();
+            if (resource.DoctorId != null)
+                collection = collection.Where(v => v.DoctorId == resource.DoctorId);
+             collection = collection.Where(x => x.Name.Contains(resource.parameters)
+            || x.UserName.Contains(resource.parameters)
+            || x.Mail.Contains(resource.parameters)
+            || x.Role.RolName.Contains(resource.parameters));
+
+           
+
+            if (collection.Count() == 0)
+                return NotFound();
+            var dtos = _Mapper.ProjectTo<UserDto>(collection);
+            var result = PagedList<UserDto>.Create(dtos, resource.PageNumber, resource.PageSize);
+            var pagination = new
+            {
+                totalCount = result.TotalCount,
+                pageSize = result.PageSize,
+                currentPage = result.CurrentPage,
+                totalPage = result.TotalPages,
+                HasNext = result.HasNext,
+                HasPrevious = result.HasPrevious,
+                data = result
+            };
+            return Ok(pagination);
         }
-    }
+    
+}
 }

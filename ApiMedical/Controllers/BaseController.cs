@@ -10,40 +10,61 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiMedical.Controllers
 {
-   // [Route("api/[controller]")]
-   
-    public class BaseController<TEntity, TDto, TManager> : ODataController where TEntity : BaseClass where TManager : IBaseService<TEntity>
+     [Route("api/[controller]")]
+
+    public class BaseController<TEntity, TDto, TManager> : Controller where TEntity : BaseClass where TManager : IBaseService<TEntity>
     {
 
         protected readonly TManager _service;
 
-    protected readonly IMapper _Mapper;
+        protected readonly IMapper _Mapper;
 
-    public BaseController(TManager manager, IMapper mapper)
+        public BaseController(TManager manager, IMapper mapper)
         {
             _service = manager;
             _Mapper = mapper;
 
         }
-        [EnableQuery]
-        [HttpGet]
-        public virtual IActionResult Get()
+
+
+        [HttpGet("{id}")]
+        public virtual TDto Get([FromRoute]int id)
         {
+
             try
             {
-                var objects = _service.FindAll().OrderByDescending(x=> x.Id);
-                var dtos = _Mapper.Map<IEnumerable<TDto>>(objects);
-                return Ok(dtos);
+                var entity = _service.GetOne(id);
+                if (entity == null || !entity.IsActive)
+                {
+                    throw new ArgumentException("Not Found");
+                }
+                TDto dto = _Mapper.Map<TDto>(entity);
+                return dto;
             }
             catch (Exception e)
             {
-
-                return BadRequest("Internal Error");
+                throw new ArgumentException(e.Message);
             }
+        }
+        [HttpGet]
         
+        public virtual IEnumerable<TDto> GetAll()
+        {
+            try
+            {
+                var objects = _service.FindAll().OrderByDescending(x => x.Id);
+                var dtos = _Mapper.ProjectTo<TDto>(objects);
+                return dtos.AsEnumerable();
+            }
+            catch (Exception e)
+            {
+                 throw new ArgumentException( e.Message);
+            }
         }
 
-        [HttpPost]
+    
+
+    [HttpPost]
         public virtual IActionResult Post([FromBody] TDto dto)
         {
             try
@@ -58,51 +79,30 @@ namespace ApiMedical.Controllers
                 TEntity entity = _Mapper.Map<TEntity>(dto);
                 return Ok(_service.Create(entity));
             }
-           
-            catch (ArgumentException e)
-            {
-                return BadRequest( e.Message);
-            }
-        }
-        [HttpDelete("{id}")]
-        public virtual IActionResult Delete(int Id)
-        {
-            try
-            {
-              
-                _service.Delete(Id);
-                return Ok();
-            }
 
             catch (ArgumentException e)
             {
                 return BadRequest(e.Message);
             }
         }
-        [HttpGet("{id}")]
-        public virtual IActionResult Get([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
+        [Route("{id}")]
+        [HttpDelete]
+        public virtual IActionResult Delete([FromRoute]int id)
+        {
             try
             {
-                var entity = _service.GetOne(id);
-
-                if (entity == null)
-                {
-                    return NotFound();
-                }
-                TDto dto = _Mapper.Map<TDto>(entity);
-                return Ok(dto);
+                if (id == 0) return NotFound("Id can not be zero");
+                _service.Delete(id);
+                return Ok();
             }
-            catch (Exception)
+            catch (ArgumentException e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
+
+
         [HttpPut]
         public virtual IActionResult Put([FromBody] TDto dto)
         {

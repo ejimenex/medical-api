@@ -8,24 +8,41 @@ using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
+using ApiMedical.Pagination;
 
 namespace ApiMedical.Controllers
 {
-    //[Route("api/[controller]")]
+    [Route("api/[controller]")]
     public class ArsController : BaseController<HealthManager,HealthManagerDto, IBaseService<HealthManager>>
     {
         public ArsController(IBaseService<HealthManager> manager, IMapper Mapper) : base(manager,Mapper)
         {
 
         }
-        //[EnableQuery]
-        //[HttpGet]
        
-        //public override IActionResult Get()
-        //{
-            
-        //    return base.Get();
-        //}
+        [HttpGet]
+        [Route("GetArsPaginated")]
+        public IActionResult GetCuntrypaged(ResourceParameters resource)
+        {
+            if (resource.parameters == null) resource.parameters = "";
+            var collection = _service.FindAll().Where(x => x.Name.Contains(resource.parameters));
+
+            if (collection.Count() == 0)
+                return NotFound();
+            var dtos = _Mapper.ProjectTo<HealthManagerDto>(collection);
+            var result = PagedList<HealthManagerDto>.Create(dtos, resource.PageNumber, resource.PageSize);
+            var pagination = new
+            {
+                totalCount = result.TotalCount,
+                pageSize = result.PageSize,
+                currentPage = result.CurrentPage,
+                totalPage = result.TotalPages,
+                HasNext = result.HasNext,
+                HasPrevious = result.HasPrevious,
+                data = result
+            };
+            return Ok(pagination);
+        }
         [HttpGet("GetByCountry")]
         public  IActionResult GetByCountry([FromQuery]int Id)
         {
@@ -45,4 +62,5 @@ namespace ApiMedical.Controllers
             
         }
     }
+   
 }

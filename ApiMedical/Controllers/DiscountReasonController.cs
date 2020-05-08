@@ -13,29 +13,20 @@ using Repository.Interface;
 namespace ApiMedical.Controllers
 {
     [Route("api/[controller]")]
-    public class CurrencyController : Controller
+    public class DiscountReasonController : Controller
     {
-        readonly ICurrency curr;
+        readonly IDiscountReason dis;
         protected readonly IMapper _Mapper;
-        public CurrencyController(ICurrency _curr, IMapper Mapper) 
+        public DiscountReasonController(IDiscountReason _dis, IMapper Mapper) 
         {
             _Mapper = Mapper;
-            curr = _curr;
+            dis = _dis;
         }
         [HttpGet]
-        public  ActionResult<IEnumerable<Currency>> Get()
+        public IQueryable<InvoiceDiscountReason> Get()
         {
-            try
-            {
-                var data = curr.GetAll();
-                return Ok(data);
-            }
-            catch (Exception e)
-            {
-
-                return NotFound(e.Message);
-            }
-           
+                var data = dis.GetAll();
+                return data;
         }
     }
 }

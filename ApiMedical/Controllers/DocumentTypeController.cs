@@ -12,14 +12,15 @@ using Repository.Interface;
 
 namespace ApiMedical.Controllers
 {
-    [Route("api/[controller]")]
-    public class DocumentTypeController : ControllerBase
+   // [Route("api/[controller]")]
+    public class DocumentTypeController : ODataController
     {
         readonly IGetData<DocumentType> repo;
         public DocumentTypeController(IGetData<DocumentType> _repo) 
         {
             repo = _repo;
         }
+        [EnableQuery]
         [HttpGet]
         public  IActionResult Get()
         {

@@ -43,5 +43,8 @@ namespace Entities
         public DbSet<Parameter> Parameter { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
         public DbSet<Documents> Documents { get; set; }
+        public DbSet<InvoiceDiscountReason> InvoiceDiscountReason { get; set; }
+        public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetail { get; set; }
     }
 }

@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repository.Repo
 {
@@ -21,7 +23,6 @@ namespace Repository.Repo
         }
         public virtual int Create(T entity)
         {
-            //this.RepositoryContext.Set<T>().Add(entity);
             entity.Version = 1;
             entity.CreatedDate = DateTime.Now;
             entity.IsActive = true;
@@ -29,7 +30,8 @@ namespace Repository.Repo
             this.RepositoryContext.SaveChanges();
             return Convert.ToInt32(result.Property("Id").CurrentValue.ToString());
         }
-
+        public async Task<int> CommitChanges() => await this.RepositoryContext.SaveChangesAsync();
+        private int Save => this.RepositoryContext.SaveChanges();
         public virtual void Delete(int Id)
         {
             var entity = this.GetOne(Id);
@@ -40,7 +42,7 @@ namespace Repository.Repo
         public virtual IQueryable<T> FindAll()
         {
            var result= this.entities.Where(c=> c.IsActive).OrderByDescending(c=> c.Id).AsNoTracking();
-            result.FirstOrDefault().Count = result.Count();
+            PropertyInfo propertyInfo = result.GetType().GetGenericArguments()[0].GetProperty("CreatedBy");
             return result;
         }
 
@@ -63,9 +65,7 @@ namespace Repository.Repo
             return entity;
         }
 
-        public bool Exist(Expression<Func<T, bool>> expression)
-        {
-            return this.RepositoryContext.Set<T>().Any(expression);
-        }
+        public bool Exist(Expression<Func<T, bool>> expression)=>(this.RepositoryContext.Set<T>().Any(expression));
+        
     }
 }

@@ -18,12 +18,12 @@ namespace ApiMedical.Controllers
         {
 
         }
-        [HttpGet]
-        [EnableQuery()]
-        public override IActionResult Get()
-        {
-            return base.Get();
-        }
+        //[HttpGet]
+        //[EnableQuery()]
+        //public override IActionResult Get()
+        //{
+        //    return base.Get();
+        //}
         [HttpGet("getByDoctor/{Id}/{DateEvent}")]
         public IActionResult GetByDoctor(Guid Id, DateTime DateEvent)
         {

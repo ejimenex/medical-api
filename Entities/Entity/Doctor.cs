@@ -23,13 +23,16 @@ namespace Entities.Entity
         public string City { get; set; }
         public int CountryId { get; set; }
         public int Nationality { get; set; }
-        [NotMapped]
+        //[NotMapped]
         public virtual List<MedicalSpecialityDoctor> MedicalSpecialityDoctor { get;set;}
         [NotMapped]
         public virtual Users Users { get; set; }
         [NotMapped]
         [ForeignKey("Nationality")]
         public virtual Country CountryBorn { get; set; }
+       // [NotMapped]
+        [ForeignKey("CountryId")]
+        public virtual Country CountryWork { get; set; }
         public Guid? DoctorGuid { get; set; }
     }
 }

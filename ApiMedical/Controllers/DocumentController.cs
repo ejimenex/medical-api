@@ -21,13 +21,12 @@ namespace ApiMedical.Controllers
     [Route("api/[controller]")]
     public class DocumentController : ControllerBase
     {
-        
-        IHostEnvironment hosting;
+      
         IRepository<Documents> document; 
-        public DocumentController(IHostEnvironment _acc, IRepository<Documents> _document) 
+        public DocumentController( IRepository<Documents> _document) 
         {
             document = _document;
-            hosting = _acc;
+          
         }
         [HttpPost, DisableRequestSizeLimit]
 

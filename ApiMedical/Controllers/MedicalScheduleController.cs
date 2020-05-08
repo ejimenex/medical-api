@@ -11,20 +11,20 @@ using Microsoft.AspNet.OData;
 
 namespace ApiMedical.Controllers
 {
-    [Route("api/[controller]")]
+
     public class MedicalScheduleController : BaseController<MedicalSchedule, MedicalScheduleDto, IBaseService<MedicalSchedule>>
     {
         public MedicalScheduleController(IBaseService<MedicalSchedule> manager, IMapper Mapper) : base(manager, Mapper)
         {
 
         }
-        [HttpGet]
-        [EnableQuery()]
-        public override IActionResult Get()
-        {
+        //[HttpGet]
+        //[EnableQuery()]
+        //public override IActionResult Get()
+        //{
 
-            return base.Get();
-        }
+        //    return base.Get();
+        //}
         [HttpGet("GetByDoctor")]
         public IActionResult GetByDoctor([FromQuery]int Id)
         {

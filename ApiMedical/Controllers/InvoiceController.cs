@@ -12,25 +12,25 @@ using ApiMedical.Pagination;
 
 namespace ApiMedical.Controllers
 {
-  
-    public class ConsultationController : BaseController<Consultation,ConsultationDto, IBaseService<Consultation>>
+
+    public class InvoiceController : BaseController<Invoice,InvoiceDto, IBaseService<Invoice>>
     {
-        public ConsultationController(IBaseService<Consultation> manager, IMapper Mapper) : base(manager,Mapper)
+        public InvoiceController(IBaseService<Invoice> manager, IMapper Mapper) : base(manager,Mapper)
         {
 
         }
         [HttpGet]
-        [Route("GetConsultationPaginated")]
-        public IActionResult GetMConsultationPaginated(ResourceParameters resource)
+        [Route("GetInvoicePaginated")]
+        public IActionResult  GetInvoicePaginated(ResourceParameters resource)
         {
             if (resource.parameters == null) resource.parameters = "";
-            var collection = _service.FindAll().Where(x => x.DoctorId == resource.DoctorId);
-            if (resource.datefrom.HasValue && resource.dateto.HasValue)
-                collection = collection.Where(c => c.CreatedDate >= resource.datefrom && c.CreatedDate <= resource.dateto);
+            var collection = _service.FindAll().Where(x => x.DoctorGuid == resource.DoctorGuid);
+            if (collection.Count() == 0)
+                return BadRequest("No Data");
             collection = collection.Where(c => c.Patient.Name.Contains(resource.parameters)
-            || c.DoctorOffice.Name.Contains(resource.parameters));
-            var dtos = _Mapper.ProjectTo<ConsultationDto>(collection);
-            var result = PagedList<ConsultationDto>.Create(dtos, resource.PageNumber, resource.PageSize);
+            || c.MedicalCenter.Name.Contains(resource.parameters));
+            var dtos = _Mapper.ProjectTo<InvoiceDto>(collection);
+            var result =  PagedList<InvoiceDto>.Create(dtos, resource.PageNumber, resource.PageSize);
             var pagination = new
             {
                 totalCount = result.TotalCount,
@@ -41,7 +41,8 @@ namespace ApiMedical.Controllers
                 HasPrevious = result.HasPrevious,
                 data = result
             };
-            return Ok(pagination);
+            return Ok( pagination);
         }
+       
     }
 }

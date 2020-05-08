@@ -16,8 +16,8 @@ namespace Repository.Repo
         }
         public override IQueryable<Doctor> FindAll()
         {
-            var result = base.FindAll();
-            return result;
+            var result = base.FindAll().Include(c=> c.CountryWork).Include(c=> c.MedicalSpecialityDoctor);
+           return result;
         }
 
     }
