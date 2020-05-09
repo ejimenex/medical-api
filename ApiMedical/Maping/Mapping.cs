@@ -43,14 +43,15 @@ namespace ApiMedical.Maping
                 cfg.CreateMap<Invoice, InvoiceDto>().ReverseMap();
                 cfg.CreateMap<Invoice, InvoiceDto>()
                 .ForMember(x => x.Discount, opt => opt.MapFrom(x => x.InvoiceDetail.Sum(c=> c.Discount)))
-                .ForMember(x => x.Total, opt => opt.MapFrom(x => x.InvoiceDetail.Sum(c=> c.Total)))
+               .ForMember(x => x.Total, opt => opt.MapFrom(x => x.InvoiceDetail.Sum(c=> (c.Qty*c.Price)-c.Discount)))
                 .ForMember(x => x.TotalItem, opt => opt.MapFrom(x => x.InvoiceDetail.Count()))
-                .ForMember(x => x.MedicalCenterName, opt => opt.MapFrom(x => x.MedicalCenter.Name))
+                .ForMember(x => x.OfficeName, opt => opt.MapFrom(x => x.Office.Name))
                 .ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name));
                 //
                 cfg.CreateMap<InvoiceDetail, InvoiceDetailDto>()
                 .ForMember(c => c.MedicalService, opt => opt.MapFrom(c => c.MedicalService.Name))
-                .ForMember(c => c.DiscountReason, opt => opt.MapFrom(c => c.DiscountReason.Name));
+                .ForMember(c => c.DiscountReason, opt => opt.MapFrom(c => c.DiscountReason.Name))
+                .ForMember(x => x.Total, opt => opt.MapFrom(c => (c.Qty * c.Price) - c.Discount));
                 //
                 cfg.CreateMap<DoctorDto,Doctor>();
                 cfg.CreateMap<Doctor, DoctorDto>()

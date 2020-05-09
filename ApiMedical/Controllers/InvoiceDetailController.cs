@@ -30,7 +30,7 @@ namespace ApiMedical.Controllers
                 return final;
         }
         [HttpPost]
-        public IActionResult Add(InvoiceDetail detail)
+        public IActionResult Add([FromBody]InvoiceDetail detail)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ApiMedical.Controllers
             
         }
         [HttpPut]
-        public IActionResult Edit(InvoiceDetail detail)
+        public IActionResult Edit([FromBody]InvoiceDetail detail)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace ApiMedical.Controllers
             }
 
         }
-        [HttpDelete("Id")]
+        [HttpDelete("{Id}")]
         public IActionResult Delete(int Id)
         {
             try
@@ -66,10 +66,10 @@ namespace ApiMedical.Controllers
                 dis.Delete(Id);
                 return Delete(Id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
         }

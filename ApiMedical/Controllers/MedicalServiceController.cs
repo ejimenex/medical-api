@@ -20,6 +20,14 @@ namespace ApiMedical.Controllers
         {
 
         }
+        [HttpGet]
+        [Route("GetByGuid")]
+        public IActionResult GetByGuid(Guid id)
+        {           
+            var collection = _service.FindByCondition(x => x.DoctorGuid == id && x.IsActive).OrderBy(c=> c.Name);
+            var dtos = _Mapper.ProjectTo<MedicalServiceDto>(collection);
+            return Ok(dtos);
+        }
 
         [HttpGet]
         [Route("GetMedicalServicePaginated")]

@@ -18,9 +18,17 @@ namespace BussinesLogic.Service
         public override int Create(Invoice entity)
         {
             entity.InvoiceNumber = GenerateInvoiceNumber(entity.PatientId, entity.DoctorGuid);
-            entity.IsBilled = false;          
+            entity.IsBilled = false;      
+            entity.Office = null;
+            entity.Patient = null;
             var result=base.Create(entity);          
             return result;
+        }
+        public override Invoice Update(Invoice entity)
+        {
+            entity.Office = null;
+            entity.Patient = null;
+            return base.Update(entity);
         }
         private string GenerateInvoiceNumber(int? Patient, Guid? Dr)
         {

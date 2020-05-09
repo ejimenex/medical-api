@@ -12,10 +12,10 @@ namespace Entities.Entity
         public int? PatientId { get; set; }
         public bool IsBilled { get; set; }
         public int? CurrencyId { get; set; }
-        public int? MedicalCenterId { get; set; }
+        public int? OfficeId { get; set; }
         public DateTime? BilledDate { get; set; }
-        [ForeignKey("MedicalCenterId")]
-        public virtual MedicalCenter MedicalCenter { get; set; }
+        [ForeignKey("OfficeId")]
+        public virtual DoctorOffice Office { get; set; }
         [ForeignKey("PatientId")]
         public virtual Patient Patient { get; set; }
         public virtual ICollection <InvoiceDetail> InvoiceDetail { get; set; }

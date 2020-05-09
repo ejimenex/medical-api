@@ -13,10 +13,10 @@ namespace ApiMedical.Dtos
         public int? PatientId { get; set; }
         public bool IsBilled { get; set; }
         public int? CurrencyId { get; set; }
-        public int? MedicalCenterId { get; set; }
+        public int? OfficeId { get; set; }
         public DateTime? BilledDate { get; set; }
         public string PatientName { get; set; }
-        public string MedicalCenterName { get; set; }
+        public string OfficeName { get; set; }
         public decimal Discount { get; set; }
         public decimal Total { get; set; }
         public int TotalItem { get; set; }

@@ -13,12 +13,13 @@ using ApiMedical.Pagination;
 namespace ApiMedical.Controllers
 {
 
-    public class InvoiceController : BaseController<Invoice,InvoiceDto, IBaseService<Invoice>>
+    public class InvoiceController : BaseController<Invoice, InvoiceDto, IBaseService<Invoice>>
     {
-        public InvoiceController(IBaseService<Invoice> manager, IMapper Mapper) : base(manager,Mapper)
+        public InvoiceController(IBaseService<Invoice> manager, IMapper Mapper) : base(manager, Mapper)
         {
 
         }
+      
         [HttpGet]
         [Route("GetInvoicePaginated")]
         public IActionResult  GetInvoicePaginated(ResourceParameters resource)
@@ -28,7 +29,7 @@ namespace ApiMedical.Controllers
             if (collection.Count() == 0)
                 return BadRequest("No Data");
             collection = collection.Where(c => c.Patient.Name.Contains(resource.parameters)
-            || c.MedicalCenter.Name.Contains(resource.parameters));
+            || c.Office.Name.Contains(resource.parameters));
             var dtos = _Mapper.ProjectTo<InvoiceDto>(collection);
             var result =  PagedList<InvoiceDto>.Create(dtos, resource.PageNumber, resource.PageSize);
             var pagination = new

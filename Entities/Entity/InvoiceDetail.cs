@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +16,10 @@ namespace Entities.Entity
         public decimal Price { get; set; }
         public int Qty { get; set; }
         public decimal Discount{get;set;}
+     
         [NotMapped]
         public decimal Total { get; set; }
+      
         public int? DiscountReasonId { get; set; }
         [ForeignKey("MedicalServiceId")]
         public virtual MedicalServices MedicalService { get; set; }
@@ -25,4 +28,5 @@ namespace Entities.Entity
         public virtual InvoiceDiscountReason DiscountReason { get; set; }
 
     }
+   
 }

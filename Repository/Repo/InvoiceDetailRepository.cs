@@ -51,7 +51,9 @@ namespace Repository.Repo
         }
         public void Delete(int Id)
         {
-            _ctx.Remove(_ctx.InvoiceDetail.Find(Id));
+            var data = _ctx.InvoiceDetail.Find(Id);
+            if (data == null) throw new ArgumentException("NotData");
+            _ctx.Remove(data);
             _ctx.SaveChanges();
         }
 

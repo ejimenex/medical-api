@@ -16,7 +16,7 @@ namespace Repository.Repo
         }
         public override IQueryable<Invoice> FindAll()
         {
-            return base.FindAll().Include(c=> c.Patient).Include(c=> c.MedicalCenter).Include(c=> c.InvoiceDetail);
+            return base.FindAll().Include(c=> c.Patient).Include(c=> c.Office).Include(c=> c.InvoiceDetail);
         }
     }
 }
