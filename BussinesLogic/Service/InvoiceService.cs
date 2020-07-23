@@ -28,6 +28,7 @@ namespace BussinesLogic.Service
         {
             entity.Office = null;
             entity.Patient = null;
+            if (entity.IsBilled) entity.BilledDate = DateTime.Now;
             return base.Update(entity);
         }
         private string GenerateInvoiceNumber(int? Patient, Guid? Dr)

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiMedical.Dtos;
-using AutoMapper;
-using BussinesLogic.Interface;
+﻿using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNet.OData;
+using Repository.Dtos;
 using Repository.Interface;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 

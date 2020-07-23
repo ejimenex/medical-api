@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiMedical.Dtos;
+using Repository.Dtos;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
@@ -25,7 +25,7 @@ namespace ApiMedical.Controllers
         //    return base.Get();
         //}
         [HttpGet("getByDoctor")]
-        [EnableQuery()]
+        
         public IActionResult GetByDoctor(int Id)
         {
             return Ok( _service.FindByCondition(x=> x.DoctorId==Id).AsQueryable());

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiMedical.Dtos;
+using Repository.Dtos;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
@@ -23,11 +23,11 @@ namespace ApiMedical.Controllers
             dis = _dis;
         }
         [HttpGet("{Id}")]
-        public IQueryable<InvoiceDetailDto> Get([FromRoute]int Id)
+        public IActionResult Get([FromRoute]int Id)
         {
                 var data = dis.GetByInvoice(Id);
                 var final = _Mapper.ProjectTo<InvoiceDetailDto>(data);
-                return final;
+                return Ok(final);
         }
         [HttpPost]
         public IActionResult Add([FromBody]InvoiceDetail detail)
@@ -51,10 +51,10 @@ namespace ApiMedical.Controllers
                 dis.Edit(detail);
                 return NoContent();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-               return BadRequest();
+               return BadRequest(ex.Message);
             }
 
         }
@@ -64,7 +64,7 @@ namespace ApiMedical.Controllers
             try
             {
                 dis.Delete(Id);
-                return Delete(Id);
+                return Ok();
             }
             catch (Exception ex)
             {

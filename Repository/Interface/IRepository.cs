@@ -11,6 +11,7 @@ namespace Repository.Interface
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
         bool Exist(Expression<Func<T, bool>> expression);
+        void AddRange(List<T> data);
         T GetOne(int Id);
         int Create(T entity);
         T Update(T entity);

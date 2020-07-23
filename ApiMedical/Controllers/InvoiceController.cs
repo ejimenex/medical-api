@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiMedical.Dtos;
+using Repository.Dtos;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
-using ApiMedical.Pagination;
+using ApiMedical.Common.Pagination;
+using ApiMedical.Auth;
 
 namespace ApiMedical.Controllers
 {
@@ -22,12 +23,15 @@ namespace ApiMedical.Controllers
       
         [HttpGet]
         [Route("GetInvoicePaginated")]
+        [AuthorizeMedical]
         public IActionResult  GetInvoicePaginated(ResourceParameters resource)
         {
             if (resource.parameters == null) resource.parameters = "";
-            var collection = _service.FindAll().Where(x => x.DoctorGuid == resource.DoctorGuid);
+            var collection = _service.FindByCondition(x => x.DoctorGuid == resource.DoctorGuid);
             if (collection.Count() == 0)
                 return BadRequest("No Data");
+            if (resource.param != null) collection = collection.Where(x => x.PatientId == resource.param);
+            if (collection.Count() == 0) return BadRequest("No Data");
             collection = collection.Where(c => c.Patient.Name.Contains(resource.parameters)
             || c.Office.Name.Contains(resource.parameters));
             var dtos = _Mapper.ProjectTo<InvoiceDto>(collection);

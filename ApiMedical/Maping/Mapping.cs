@@ -1,4 +1,4 @@
-﻿using ApiMedical.Dtos;
+﻿using Repository.Dtos;
 using AutoMapper;
 using Entities.Entity;
 using System;
@@ -102,6 +102,9 @@ namespace ApiMedical.Maping
                 //
                 cfg.CreateMap<Prescription, PrescriptionDto>().ReverseMap();
                 cfg.CreateMap<Prescription, PrescriptionDto>().ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name));
+
+                //
+                cfg.CreateMap<AnalysisDoctor, AnalysisDoctorDto>().ReverseMap();
             });
             IMapper mapper = config.CreateMapper();
             return mapper;

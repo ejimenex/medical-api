@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiMedical.Dtos;
+using Repository.Dtos;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
@@ -12,15 +12,15 @@ using Repository.Interface;
 
 namespace ApiMedical.Controllers
 {
-   // [Route("api/[controller]")]
-    public class DocumentTypeController : ODataController
+     [Route("api/[controller]")]
+    public class DocumentTypeController : Controller
     {
         readonly IGetData<DocumentType> repo;
         public DocumentTypeController(IGetData<DocumentType> _repo) 
         {
             repo = _repo;
         }
-        [EnableQuery]
+
         [HttpGet]
         public  IActionResult Get()
         {

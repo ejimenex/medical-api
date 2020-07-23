@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiMedical.Dtos;
+using Repository.Dtos;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
-using ApiMedical.Pagination;
+using ApiMedical.Common.Pagination;
+using ApiMedical.Auth;
 
 namespace ApiMedical.Controllers
 {
@@ -21,6 +22,7 @@ namespace ApiMedical.Controllers
         }
         [HttpGet]
         [Route("GetOfficePaginated")]
+        [AuthorizeMedical]
         public IActionResult  GetOfficePaginated(ResourceParameters resource)
         {
             if (resource.parameters == null) resource.parameters = "";
@@ -43,7 +45,6 @@ namespace ApiMedical.Controllers
             return Ok( pagination);
         }
         [HttpGet("getByDoctor")]
-        [EnableQuery()]
         public IActionResult GetByDoctor(int Id)
         {
             try
@@ -56,7 +57,8 @@ namespace ApiMedical.Controllers
                 Name=c.Name,
                 Id=c.Id
                 }).AsQueryable();
-                return Ok(_Mapper.Map<IEnumerable<DoctorOfficeDto>>(data));
+                var ret = _Mapper.Map<IEnumerable<DoctorOfficeDto>>(data);
+                return Ok(ret);
             }
             catch (Exception e)
             {

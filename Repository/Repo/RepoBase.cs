@@ -30,6 +30,19 @@ namespace Repository.Repo
             this.RepositoryContext.SaveChanges();
             return Convert.ToInt32(result.Property("Id").CurrentValue.ToString());
         }
+        public virtual void AddRange(List<T> data)
+
+        {
+            foreach (var item in data)
+            {
+                item.CreatedDate = DateTime.Now;
+                item.Version = 1;
+                item.IsActive = true;
+            }
+            RepositoryContext.AddRange(data);
+            RepositoryContext.SaveChanges();
+
+        }
         public async Task<int> CommitChanges() => await this.RepositoryContext.SaveChangesAsync();
         private int Save => this.RepositoryContext.SaveChanges();
         public virtual void Delete(int Id)

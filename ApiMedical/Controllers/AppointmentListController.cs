@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiMedical.Dtos;
+﻿using ApiMedical.Common.Pagination;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
-using ApiMedical.Pagination;
+using Microsoft.AspNetCore.Mvc;
+using Repository.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ApiMedical.Controllers
 {

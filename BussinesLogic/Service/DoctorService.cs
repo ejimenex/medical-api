@@ -31,14 +31,18 @@ namespace BussinesLogic.Service
             {if (user.Exist(c => c.UserName == entity.Users.UserName && c.IsActive))
                     throw new ArgumentException("lUserExist");
                 entity.DoctorGuid= Guid.NewGuid();
+                if (base.Exist(c => c.DocumentId == entity.DocumentId && c.IsActive)) throw new ArgumentException("DoctorExist");
+                if (base.Exist(c => c.Exequatur == entity.Exequatur && c.IsActive)) throw new ArgumentException("ExequaturExist");
                 var result= base.Create(entity);
                 if (entity.MedicalSpecialityDoctor != null) {
-                    foreach (var ite in entity.MedicalSpecialityDoctor)
+                    var listSpe = entity.MedicalSpecialityDoctor;
+                    foreach (var ite in listSpe)
                     {
                         ite.DoctorId = result;
                         ite.CreateBy = entity.CreateBy;
-                        me.Create(ite);
+                        ite.Doctor = null;
                     }
+                    me.AddRange(listSpe);
                 }
               
                 var newUser =entity.Users;

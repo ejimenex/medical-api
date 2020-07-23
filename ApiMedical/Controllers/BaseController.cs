@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiMedical.Auth;
 using AutoMapper;
 using BussinesLogic.Interface;
 using Entities.Entity;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Interface;
 
 namespace ApiMedical.Controllers
 {
@@ -28,9 +31,10 @@ namespace ApiMedical.Controllers
 
 
         [HttpGet("{id}")]
+        [AuthorizeMedical]
         public virtual TDto Get([FromRoute]int id)
         {
-
+            var accessToken = Request.Headers;
             try
             {
                 var entity = _service.GetOne(id);
@@ -47,7 +51,7 @@ namespace ApiMedical.Controllers
             }
         }
         [HttpGet]
-        
+        [AuthorizeMedical]
         public virtual IEnumerable<TDto> GetAll()
         {
             try
