@@ -92,6 +92,7 @@ namespace ApiMedical.Maping
              .ForMember(x => x.children, opt => opt.Condition(v=> v.children.Count>0));
                 //
                 cfg.CreateMap<Patient, PatientDto>().ReverseMap();
+                cfg.CreateMap<Patient, PatientDto>().ForMember(x => x.Age, opt => opt.MapFrom(x => DateTime.Now.Year -x.BornDate.Year));
                 cfg.CreateMap<MedicalForm, MedicalFormDto>().ReverseMap();
                 cfg.CreateMap<Doctor, DoctorDto>();
                 //
@@ -99,6 +100,13 @@ namespace ApiMedical.Maping
                 cfg.CreateMap<MedicalServices, MedicalServiceDto>()
                 .ForMember(x => x.ApplyInsuranceName, opt => opt.MapFrom(x => x.ApplyInsurance?"Si":"No"));
 
+                //
+                cfg.CreateMap<MedicalProcess, MedicalProcessDto>()
+                .ForMember(x => x.Patient, opt => opt.MapFrom(x => x.Patient))
+                .ForMember(x => x.ServiceTypeName, opt => opt.MapFrom(x => x.ServiceTypeObj.Description))
+                .ForMember(x => x.MedicalProcessStatusName, opt => opt.MapFrom(x => x.MedicalProcessStatus.Description))
+                .ForMember(x => x.MedicalServicesName, opt => opt.MapFrom(x => x.Service.Name))
+                .ForMember(x => x.OfficeName, opt => opt.MapFrom(x => x.DoctorOffice.Name)).ReverseMap();
                 //
                 cfg.CreateMap<Prescription, PrescriptionDto>().ReverseMap();
                 cfg.CreateMap<Prescription, PrescriptionDto>().ForMember(x => x.PatientName, opt => opt.MapFrom(x => x.Patient.Name));

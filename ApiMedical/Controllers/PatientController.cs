@@ -10,15 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
 using ApiMedical.Common.Pagination;
 using ApiMedical.Auth;
+using Repository.Interface;
 
 namespace ApiMedical.Controllers
 {
     //[Route("api/[controller]")]
-    public class PatientController : BaseController<Patient,PatientDto, IBaseService<Patient>>
+    public class PatientController : BaseController<Patient, PatientDto, IBaseService<Patient>>
     {
-        public PatientController(IBaseService<Patient> manager, IMapper Mapper) : base(manager,Mapper)
+        private readonly IBaseService<Consultation> cons;
+        private readonly IInvoiceNofactRepository invo;
+        public PatientController(IBaseService<Patient> manager, IMapper Mapper, IBaseService<Consultation> _cons, IInvoiceNofactRepository _invo) : base(manager, Mapper)
         {
-
+            cons = _cons;
+            invo = _invo;
         }
         [HttpGet]
         [Route("GetPatientPaginated")]
@@ -31,7 +35,13 @@ namespace ApiMedical.Controllers
             collection = collection.Where(c => c.Name.Contains(resource.parameters)
             || c.Phone.Contains(resource.parameters));
             var dtos = _Mapper.ProjectTo<PatientDto>(collection);
+
             var result = PagedList<PatientDto>.Create(dtos, resource.PageNumber, resource.PageSize);
+            foreach (var item in result)
+            {
+                item.ConsultantQty =
+                    cons.FindByCondition(x => x.DoctorId == resource.DoctorId && x.PatientId == item.Id && x.IsActive).Count();
+            }
             var pagination = new
             {
                 totalCount = result.TotalCount,
@@ -48,13 +58,36 @@ namespace ApiMedical.Controllers
         [EnableQuery()]
         public IActionResult GetByDoctor(int Id)
         {
-            return Ok( _service.FindByCondition(x=> x.DoctorId==Id).AsQueryable());
+            return Ok(_service.FindByCondition(x => x.DoctorId == Id).AsQueryable());
         }
         [HttpGet("allByDoctor")]
         [AuthorizeMedical]
         public IActionResult AllByDoctor(int Id)
         {
-            return Ok(_service.FindByCondition(x => x.DoctorId == Id).OrderBy(C=> C.Name).AsQueryable());
+            return Ok(_service.FindByCondition(x => x.DoctorId == Id).OrderBy(C => C.Name).AsQueryable());
+        }
+        [HttpGet("byDoctorAndName")]
+        [AuthorizeMedical]
+        public IActionResult byDoctorAndName(int Id, string Patient)
+        {
+            if (Patient == null) Patient = "";
+            return Ok(_service.FindByCondition(x => x.DoctorId == Id && x.Name.Contains(Patient)).OrderBy(C => C.Name).AsQueryable());
+        }
+
+        [HttpGet("GetInvoiceNoFact/{Id}")]
+        [AuthorizeMedical]
+        public IActionResult GetByInvoice(int Id)
+        {
+            try
+            {
+                return Ok(invo.GetByatient(Id));
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+           
         }
     }
 }

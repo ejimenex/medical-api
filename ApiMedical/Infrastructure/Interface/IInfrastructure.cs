@@ -1,4 +1,5 @@
-﻿using BussinesLogic.Interface;
+﻿using ApiMedical.Common.Token;
+using BussinesLogic.Interface;
 using BussinesLogic.Interface.ListInterface;
 using BussinesLogic.Service;
 using Entities.Entity;
@@ -41,6 +42,7 @@ namespace ApiMedical.Infrastructure.Interface
             services.AddScoped<IMenu, MenuRepository>();
             services.AddScoped<ICurrency, CurrencyRepository>();
             services.AddScoped<IDiscountReason, DiscountReasonRepository>();
+            services.AddScoped<IMedicalProcess, MedicalProcessService>();
             services.AddScoped<IInvoideDetail, InvoiceDetailRepository>();
             //
             services.AddScoped<IAccount, AccountService>();
@@ -98,8 +100,14 @@ namespace ApiMedical.Infrastructure.Interface
             services.AddScoped<IBaseService<DoctorOffice>, DoctorOfficeService>();
             services.AddScoped<IRepository<DoctorOffice>, DoctorOfficeRepository>();
             //
+            services.AddScoped<IBaseService<MedicalProcess>, MedicalProcessService>();
+            services.AddScoped<IRepository<MedicalProcess>, MedicalProcessRepository>();
+            //
             services.AddScoped<IRepository<MedicalSpecialityDoctor>, MedicalSpecialityDoctorRepository>();
 
+            services.AddScoped<ITokenService,TokenService>();
+
+            services.AddScoped<IInvoiceNofactRepository, InvoiceNoFactRepository>();
         }
 
         }

@@ -16,8 +16,7 @@ namespace Entities.Entity
         public DateTime? ModifiedDate { get; set; }
         public int Version { get; set; }
         public bool IsActive { get; set; }
-        [NotMapped]
-        public int Count { get; set; }
+
 
 
     }

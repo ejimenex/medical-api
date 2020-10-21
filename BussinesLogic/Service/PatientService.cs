@@ -23,11 +23,10 @@ namespace BussinesLogic.Service
         public  override int Create(Patient entity)
         {
             if (entity.ArsId == 0) entity.ArsId = null;
-            entity.PatientGuid =  Guid.NewGuid();
-            var result=  base.Create(entity);
-           
+            entity.PatientGuid =  Guid.NewGuid();            
+            var result=  base.Create(entity);           
             var doctorGuid = doctor.GetOne(Convert.ToInt32(entity.DoctorId));
-            var questions = question.FindByCondition(c => c.DoctorGuid == doctorGuid.DoctorGuid).ToList();
+            var questions = question.FindByCondition(c => c.DoctorGuid == doctorGuid.DoctorGuid && c.IsActive).ToList();
             foreach (var item in questions)
             {
                 var newPatientForm = new PatientForm();
@@ -36,7 +35,7 @@ namespace BussinesLogic.Service
                 newPatientForm.PatientId = result;
                 newPatientForm.Answer = "";
                 newPatientForm.MedicalForm = null;
-                patient.Create(newPatientForm);
+                //patient.Create(newPatientForm);
             }
             return  result;
         }

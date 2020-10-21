@@ -1,4 +1,5 @@
 ﻿using Entities.Entity;
+using Entities.Entity.View;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -48,5 +49,10 @@ namespace Entities
         public DbSet<InvoiceDetail> InvoiceDetail { get; set; }
         public DbSet<AnalysisDoctor> analysisDoctor { get; set; }
         public DbSet<MedicalFile> MedicalFile { get; set; }
+        public DbSet<ServiceType> ServiceType { get; set; }
+        public DbSet<MedicalProcessStatus> MedicalProcessStatus { get; set; }
+        public DbSet<MedicalProcess> MedicalProcess { get; set; }
+        public DbSet<VwInvoicesNoFact> VwInvoicesNoFact { get; set; }
+
     }
 }

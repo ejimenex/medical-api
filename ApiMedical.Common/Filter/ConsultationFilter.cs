@@ -7,9 +7,9 @@ namespace ApiMedical.Common.Filter
 {
    public class ConsultationFilter:BaseFilter
     {
-        public DateTime? dateto { get; set; }
-        public DateTime? datefrom { get; set; }
-        public int DoctorId { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public Guid DoctorGuid { get; set; }
         public string OfficeName { get; set; }
         public string PatientName { get; set; }
         public int? PatientId { get; set; }

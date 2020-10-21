@@ -24,6 +24,8 @@ namespace BussinesLogic.Service
             entity.Office = null;
             entity.Patient = null;
             var DaysOfWeek = entity.Date.DayOfWeek.ToString();
+            if (entity.Date < DateTime.Now.Date)
+                throw new ArgumentException("minordate");
             if (DaysOfWeek == "Saturday")
             {
        

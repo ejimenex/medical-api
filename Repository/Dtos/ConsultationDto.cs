@@ -39,5 +39,7 @@ namespace Repository.Dtos
         public bool? LackAppetite { get; set; }
         public bool? Other { get; set; }
         public string OtherDetail { get; set; }
+        public Guid? DoctorGuid { get; set; }
+        public string ConsultationNumber { get; set; }
     }
 }

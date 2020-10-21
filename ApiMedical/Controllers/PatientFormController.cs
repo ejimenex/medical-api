@@ -15,9 +15,10 @@ namespace ApiMedical.Controllers
     [Route("api/[controller]")]
     public class PatientFormController : BaseController<PatientForm,PatientFormDto, IBaseService<PatientForm>>
     {
-        public PatientFormController(IBaseService<PatientForm> manager, IMapper Mapper) : base(manager,Mapper)
+        private IBaseService<MedicalForm> medi;
+        public PatientFormController(IBaseService<MedicalForm> _medi,IBaseService<PatientForm> manager, IMapper Mapper) : base(manager,Mapper)
         {
-
+            medi = _medi;
         }
         [HttpGet]
         [Route("filtered/{id}/{patientid}")]
@@ -29,6 +30,24 @@ namespace ApiMedical.Controllers
             var result = _Mapper.Map<IEnumerable <PatientFormDto>>(data);
             return Ok(result
                 );
+        }
+        [HttpGet]
+        [Route("GetFilteredByDoctor/{id}")]
+        public IActionResult GetFilteredByDoctor(Guid id)
+        {
+            try
+            {
+                var data = medi.FindByCondition(c => c.DoctorGuid == id && c.IsActive)
+                              .OrderBy(c => c.NoOrder);
+                var result = _Mapper.Map<IEnumerable<MedicalFormDto>>(data);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+          
         }
     }
 }

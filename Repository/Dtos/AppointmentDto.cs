@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Repository.Dtos
     public class AppointmentDto : BaseDto
     {
         public DateTime Date { get; set; }
+        [Required(ErrorMessage ="timeRequired")]
         public string Time { get; set; }
         public string Note { get; set; }
         public int PatientId { get; set; }

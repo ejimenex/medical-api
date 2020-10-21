@@ -32,6 +32,7 @@ namespace Entities.Entity
         public bool? LackAppetite { get; set; }
         public bool? Other { get; set; }
         public string OtherDetail { get; set; }
+        public Guid? DoctorGuid { get; set; }
         public DateTime NextDateVisit { get; set; }
         [ForeignKey("PatientId")]
         public virtual Patient Patient { get; set; }
@@ -39,6 +40,8 @@ namespace Entities.Entity
         public virtual DoctorOffice DoctorOffice { get; set; }
         [ForeignKey("ReasonVisitId")]
         public virtual ReasonConsultation ReasonConsultationObj { get; set; }
+        public string ConsultationNumber { get; set; }
+        public int? ProcessStatusId { get; set; }
 
     }
 }
