@@ -28,6 +28,8 @@ namespace ApiMedical.Infrastructure.Interface
             services.AddScoped<IBaseService<Users>, UserService>();
             services.AddScoped<IRepository<Users>, UserRepository>();
             //
+
+            //
             services.AddScoped<IBaseService<HealthManager>, HealthManagerService>();
             services.AddScoped<IRepository<HealthManager>, HealthManagerRepository>();
             //
@@ -106,6 +108,8 @@ namespace ApiMedical.Infrastructure.Interface
             services.AddScoped<IRepository<MedicalSpecialityDoctor>, MedicalSpecialityDoctorRepository>();
 
             services.AddScoped<ITokenService,TokenService>();
+
+            services.AddScoped<IInvoice, InvoiceService>();
 
             services.AddScoped<IInvoiceNofactRepository, InvoiceNoFactRepository>();
         }

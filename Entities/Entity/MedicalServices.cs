@@ -12,5 +12,6 @@ namespace Entities.Entity
         public decimal InsurancePrice { get; set; }
         public Guid DoctorGuid {get;set;}
         public string CurrencyId { get; set; }
+        public bool? IsBasicConsultation { get; set; }
     }
 }

@@ -10,17 +10,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData;
 using ApiMedical.Common.Pagination;
 using ApiMedical.Auth;
+using Entities.Entity.View;
 
 namespace ApiMedical.Controllers
 {
 
     public class InvoiceController : BaseController<Invoice, InvoiceDto, IBaseService<Invoice>>
     {
-        public InvoiceController(IBaseService<Invoice> manager, IMapper Mapper) : base(manager, Mapper)
+        private readonly IInvoice invoiceService;
+        public InvoiceController(IBaseService<Invoice> manager, IMapper Mapper, IInvoice _invoiceService) : base(manager, Mapper)
         {
-
+            invoiceService = _invoiceService;
         }
-      
+        [HttpPost]
+        [Route("BillToPatient")]
+        public IActionResult BillToPatient([FromBody] List<VwInvoicesNoFact> data,Invoice invoice)
+        {
+            try
+            {
+                invoiceService.InvoiceAll(data,invoice);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                throw new ArgumentException(e.Message);
+            }
+        }
         [HttpGet]
         [Route("GetInvoicePaginated")]
         [AuthorizeMedical]

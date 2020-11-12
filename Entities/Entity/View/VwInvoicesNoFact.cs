@@ -5,18 +5,22 @@ using System.Text;
 
 namespace Entities.Entity.View
 {
-   public class VwInvoicesNoFact
+    public class VwInvoicesNoFact
     {
         [Key]
         public int Id { get; set; }
+        public int DoctorId { get; set; }
         public DateTime? Date { get; set; }
         public int? PatientId { get; set; }
         public string DocumentNumber { get; set; }
+        public int ServiceId { get; set; }
         public string PatientName { get; set; }
         public string ServiceName { get; set; }
         public decimal? Amount { get; set; }
         public string Type { get; set; }
         public int? StatusC { get; set; }
         public string StatusDescription { get; set; }
+        public int OfficeId { get; set; }
+        public int IdRelative{ get; set; }
     }
 }
